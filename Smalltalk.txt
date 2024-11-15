@@ -19,14 +19,11 @@ Object subclass: Wielokat [
     
     Wielokat >> wysrodkuj [
         | a b |
-        a := (wierzcholki at: 1) x + (wierzcholki at: 3) x.
-        a := a/2.
-        b := (wierzcholki at: 1) y + (wierzcholki at: 3) y.
-        b := b/2.
-        wierzcholki at: 1 put: ((wierzcholki at: 1) x - a)@((wierzcholki at: 1) y - b).
-        wierzcholki at: 2 put: ((wierzcholki at: 2) x - a)@((wierzcholki at: 2) y - b).
-        wierzcholki at: 3 put: ((wierzcholki at: 3) x - a)@((wierzcholki at: 3) y - b).
-        wierzcholki at: 4 put: ((wierzcholki at: 4) x - a)@((wierzcholki at: 4) y - b).
+        a := ((wierzcholki at: 1) x + (wierzcholki at: 3) x)/2.
+        b := ((wierzcholki at: 1) y + (wierzcholki at: 3) y )/2.
+        1 to: 4 do: [ :i |
+            wierzcholki at: i put: ((wierzcholki at: i) x - a)@((wierzcholki at: i) y - b).
+        ].
     ]
     
     Wielokat >> drukuj [
@@ -128,5 +125,5 @@ kwadrat drukuj.
 
 
 | romb |
-romb := (Romb new) initBok: 4 initKat: 45 degreesToRadians.
+romb := (Romb new) initBok: 4 initKat: 90 degreesToRadians.
 romb drukuj.
