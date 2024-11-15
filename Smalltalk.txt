@@ -42,15 +42,17 @@ Object subclass: Wielokat [
 
 
 Wielokat subclass: Kwadrat [
-    Kwadrat >> initBok: bok [
+        | bok |
+    Kwadrat >> initBok: nowyBok [
         super initLW: 4 initNazwa: 'Kwadrat'.
-        wierzcholki at: 2 put: bok@0.
-        wierzcholki at: 3 put: bok@bok.
-        wierzcholki at: 4 put: 0@bok.
+        wierzcholki at: 2 put: nowyBok@0.
+        wierzcholki at: 3 put: nowyBok@nowyBok.
+        wierzcholki at: 4 put: 0@nowyBok.
+        bok := nowyBok.
     ]
     
     Kwadrat >> pole [
-        ^ (wierzcholki at: 2) x squared.
+        ^ (bok) squared.
     ]
     
     Kwadrat >> + figura [
@@ -121,6 +123,7 @@ Transcript show: 'Pole rombu r3 (suma pól r1 i r2): ', r3 pole printString; cr.
 
 | kwadrat |
 kwadrat := (Kwadrat new) initBok: 3.
+kwadrat wysrodkuj.
 kwadrat drukuj.
 
 
