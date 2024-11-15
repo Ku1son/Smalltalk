@@ -1,7 +1,7 @@
 Object subclass: Wielokat [
     | wierzcholki nazwa |
     
-    Wielokat >> initialize: liczbaWierzcholkow name: nowaNazwa [
+    Wielokat >> initLW: liczbaWierzcholkow initNazwa: nowaNazwa [
         nazwa := nowaNazwa.
         wierzcholki := Array new: liczbaWierzcholkow.
         wierzcholki at: 1 put: 0@0.
@@ -16,12 +16,22 @@ Object subclass: Wielokat [
     Wielokat >> wierzcholki [
         ^ wierzcholki.
     ]
+    
+    Wielokat >> drukuj [
+    | poleWielokata |
+    poleWielokata := self pole.
+    Transcript show: 'Nazwa: ', self nazwa; cr.
+    Transcript show: 'Wierzchołki:'; cr.
+    1 to: wierzcholki size do: [ :i | Transcript show: '  ', (wierzcholki at: i) printString; cr ].
+    Transcript show: 'Pole: ', poleWielokata printString; cr; cr.
+]
+
 ]
 
 
 Wielokat subclass: Kwadrat [
-    Kwadrat >> initialize: bok [
-        super initialize: 4 name: 'Kwadrat'.
+    Kwadrat >> initBok: bok [
+        super initLW: 4 initNazwa: 'Kwadrat'.
         wierzcholki at: 2 put: bok@0.
         wierzcholki at: 3 put: bok@bok.
         wierzcholki at: 4 put: 0@bok.
@@ -34,21 +44,79 @@ Wielokat subclass: Kwadrat [
     Kwadrat >> + figura [
         | p |
         p := self pole + figura pole.
-        ^ (Kwadrat new) initialize: p sqrt.
+        ^ (Kwadrat new) initBok: p sqrt.
+    ]
+]
+
+
+Wielokat subclass: Romb [
+    | bok kat |
+    
+    Romb >> initBok: nowyBok initKat: nowyKat [
+        super initLW: 4 initNazwa: 'Romb'.
+        kat := nowyKat.
+        bok := nowyBok.
+        "niech jakis matematyk to sprawdzi"
+        wierzcholki at: 2 put: bok @ 0.
+        wierzcholki at: 3 put: (bok * (kat cos)) @ (bok * (kat sin)).
+        wierzcholki at: 4 put: (bok * (1 + kat cos)) @ (bok * (kat sin)).
+    ]
+
+    
+    Romb >> pole [
+        ^ bok * bok * kat sin.
+    ]
+    
+    Romb >> + figura [
+        | nowePole nowyBok |
+        nowePole := self pole + figura pole.
+        nowyBok := (nowePole / (kat sin)) sqrt.
+        ^ (Romb new) initBok: nowyBok initKat: kat.
     ]
 ]
 
 
 
 
-| k1 k2 k3 |
-k1 := (Kwadrat new) initialize: 2.
-k2 := (Kwadrat new) initialize: 3.
+
+
+"| k1 k2 k3 |
+k1 := (Kwadrat new) initBok: 2.
+k2 := (Kwadrat new) initBok: 3.
 k3 := k1 + k2.
 
 Transcript show: 'Pole kwadratu k1: ', k1 pole printString; cr.
 Transcript show: 'Pole kwadratu k2: ', k2 pole printString; cr.
 Transcript show: 'Pole kwadratu k3 (suma pól k1 i k2): ', k3 pole printString; cr.
 Transcript show: 'Bok nowego kwadratu: ', (k3 wierzcholki at: 2) x printString; cr.
+"
+
+
+"| r1 r2 |
+r1 := (Romb new) initBok: 3 initKat: 45 degreesToRadians.
+r2 := (Romb new) initBok: 4 initKat: 45 degreesToRadians.
+r3 := r1 + r2.
+
+
+
+Transcript show: 'Pole rombu r1: ', r1 pole printString; cr.
+Transcript show: 'Pole rombu r2: ', r2 pole printString; cr.
+Transcript show: 'Pole rombu r3 (suma pól r1 i r2): ', r3 pole printString; cr."
+
+
+
+
+| kwadrat |
+kwadrat := (Kwadrat new) initBok: 3.
+kwadrat drukuj.
+
+
+| romb |
+romb := (Romb new) initBok: 4 initKat: 45 degreesToRadians.
+romb drukuj.
+
+
+
+
 
 
