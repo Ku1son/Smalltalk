@@ -17,6 +17,18 @@ Object subclass: Wielokat [
         ^ wierzcholki.
     ]
     
+    Wielokat >> wysrodkuj [
+        | a b |
+        a := (wierzcholki at: 1) x + (wierzcholki at: 3) x.
+        a := a/2.
+        b := (wierzcholki at: 1) y + (wierzcholki at: 3) y.
+        b := b/2.
+        wierzcholki at: 1 put: ((wierzcholki at: 1) x - a)@((wierzcholki at: 1) y - b).
+        wierzcholki at: 2 put: ((wierzcholki at: 2) x - a)@((wierzcholki at: 2) y - b).
+        wierzcholki at: 3 put: ((wierzcholki at: 3) x - a)@((wierzcholki at: 3) y - b).
+        wierzcholki at: 4 put: ((wierzcholki at: 4) x - a)@((wierzcholki at: 4) y - b).
+    ]
+    
     Wielokat >> drukuj [
     | poleWielokata |
     poleWielokata := self pole.
@@ -56,16 +68,17 @@ Wielokat subclass: Romb [
         super initLW: 4 initNazwa: 'Romb'.
         kat := nowyKat.
         bok := nowyBok.
-        "niech jakis matematyk to sprawdzi"
+        "sprawdzone przez matematyka"
         wierzcholki at: 2 put: bok @ 0.
-        wierzcholki at: 3 put: (bok * (kat cos)) @ (bok * (kat sin)).
-        wierzcholki at: 4 put: (bok * (1 + kat cos)) @ (bok * (kat sin)).
+        wierzcholki at: 3 put: (bok * (1 + kat cos)) @ (bok * (kat sin)).
+        wierzcholki at: 4 put: (bok * (kat cos)) @ (bok * (kat sin)).
     ]
 
     
     Romb >> pole [
         ^ bok * bok * kat sin.
     ]
+    
     
     Romb >> + figura [
         | nowePole nowyBok |
@@ -114,9 +127,3 @@ kwadrat drukuj.
 | romb |
 romb := (Romb new) initBok: 4 initKat: 45 degreesToRadians.
 romb drukuj.
-
-
-
-
-
-
