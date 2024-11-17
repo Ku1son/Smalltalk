@@ -47,9 +47,9 @@ Object subclass: Wielokat [
     centroidX := 0.
     centroidY := 0.
 
-    "Obliczanie środka układu współrzędnych (0,0) jako punktu odniesienia"
+    "(0,0) jako punktu odniesienia"
     
-    "Przesunięcie i obrót każdego wierzchołka"
+    
     1 to: wierzcholki size do: [:i |
         | staryX staryY nowyX nowyY |
         staryX := (wierzcholki at: i) x.
@@ -148,11 +148,11 @@ Transcript show: 'Pole rombu r3 (suma pól r1 i r2): ', r3 pole printString; cr.
 kwadrat := (Kwadrat new) initBok: 3.
 kwadrat wysrodkuj.
 kwadrat drukuj.
-kwadrat obroc: 90.
+kwadrat obroc: 45.
 kwadrat drukuj.
 
 | romb |
-romb := (Romb new) initBok: 4 initKat: 90 degreesToRadians.
+romb := (Romb new) initBok: 4 initKat: 60 degreesToRadians.
 romb drukuj.
-romb obroc: 90.
+romb obroc: 45.
 romb drukuj.
