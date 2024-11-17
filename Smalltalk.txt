@@ -33,8 +33,34 @@ Object subclass: Wielokat [
     Transcript show: 'Wierzchołki:'; cr.
     1 to: wierzcholki size do: [ :i | Transcript show: '  ', (wierzcholki at: i) printString; cr ].
     Transcript show: 'Pole: ', poleWielokata printString; cr; cr.
-]
+    ]
+    
+    
+    Wielokat >> obroc: kat [
+    | katWRad centroidX centroidY |
+    
+    (kat > 0 and: [kat <= 90]) ifFalse: [
+        ^ self error: 'Kąt musi być w zakresie od 0 do 90 stopni'.
+    ].
+    
+    katWRad := kat degreesToRadians.
+    centroidX := 0.
+    centroidY := 0.
 
+    "Obliczanie środka układu współrzędnych (0,0) jako punktu odniesienia"
+    
+    "Przesunięcie i obrót każdego wierzchołka"
+    1 to: wierzcholki size do: [:i |
+        | staryX staryY nowyX nowyY |
+        staryX := (wierzcholki at: i) x.
+        staryY := (wierzcholki at: i) y.
+
+        nowyX := (staryX * katWRad cos) - (staryY * katWRad sin).
+        nowyY := (staryX * katWRad sin) + (staryY * katWRad cos).
+
+        wierzcholki at: i put: nowyX@nowyY.
+    ].
+    ]
 ]
 
 
@@ -122,8 +148,11 @@ Transcript show: 'Pole rombu r3 (suma pól r1 i r2): ', r3 pole printString; cr.
 kwadrat := (Kwadrat new) initBok: 3.
 kwadrat wysrodkuj.
 kwadrat drukuj.
-
+kwadrat obroc: 90.
+kwadrat drukuj.
 
 | romb |
 romb := (Romb new) initBok: 4 initKat: 90 degreesToRadians.
+romb drukuj.
+romb obroc: 90.
 romb drukuj.
