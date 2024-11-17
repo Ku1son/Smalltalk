@@ -1,3 +1,11 @@
+"Autorzy Projektu:
+Maciej Daszkiewicz 198303
+
+
+"
+
+
+
 Object subclass: Wielokat [
     | wierzcholki nazwa |
     
@@ -19,8 +27,8 @@ Object subclass: Wielokat [
     
     Wielokat >> wysrodkuj [
         | a b |
-        a := ((wierzcholki at: 1) x + (wierzcholki at: 3) x)/2.
-        b := ((wierzcholki at: 1) y + (wierzcholki at: 3) y )/2.
+        a := (((wierzcholki at: 1) x ) + ((wierzcholki at: 3) x))/2.
+        b := (((wierzcholki at: 1) y) + ((wierzcholki at: 3) y ))/2.
         1 to: 4 do: [ :i |
             wierzcholki at: i put: ((wierzcholki at: i) x - a)@((wierzcholki at: i) y - b).
         ].
@@ -37,27 +45,36 @@ Object subclass: Wielokat [
     
     
     Wielokat >> obroc: kat [
-    | katWRad centroidX centroidY |
+    | katWRad x0 y0 |
     
     (kat > 0 and: [kat <= 90]) ifFalse: [
         ^ self error: 'Kąt musi być w zakresie od 0 do 90 stopni'.
     ].
     
     katWRad := kat degreesToRadians.
-    centroidX := 0.
-    centroidY := 0.
+    "
+    x0 := 0.
+    y0 := 0.
 
-    "(0,0) jako punktu odniesienia"
+    (0,0) jako punktu odniesienia"
+    "Wyliczenie środka ciężkości figury czworokątnej"
+    x0 := ((wierzcholki at: 1) x + (wierzcholki at: 3) x)/2.
+    y0 := ((wierzcholki at: 1) y + (wierzcholki at: 3) y)/2.
+    
     
     
     1 to: wierzcholki size do: [:i |
         | staryX staryY nowyX nowyY |
-        staryX := (wierzcholki at: i) x.
-        staryY := (wierzcholki at: i) y.
+        staryX := (wierzcholki at: i) x - x0.
+        staryY := (wierzcholki at: i) y - y0.
 
         nowyX := (staryX * katWRad cos) - (staryY * katWRad sin).
         nowyY := (staryX * katWRad sin) + (staryY * katWRad cos).
-
+        
+        "przesuwanie spowrotem na współrzędne początkowe"
+        nowyX := nowyX + x0.
+        nowyY := nowyY + y0.
+        
         wierzcholki at: i put: nowyX@nowyY.
     ].
     ]
@@ -146,13 +163,21 @@ Transcript show: 'Pole rombu r3 (suma pól r1 i r2): ', r3 pole printString; cr.
 
 | kwadrat |
 kwadrat := (Kwadrat new) initBok: 3.
-kwadrat wysrodkuj.
 kwadrat drukuj.
 kwadrat obroc: 45.
 kwadrat drukuj.
+kwadrat wysrodkuj.
+kwadrat drukuj.
+
 
 | romb |
 romb := (Romb new) initBok: 4 initKat: 60 degreesToRadians.
 romb drukuj.
 romb obroc: 45.
 romb drukuj.
+
+
+
+
+
+
